@@ -476,35 +476,53 @@ BOOL APIENTRY DllMain( HINSTANCE hModule,
 			char path[256];
 			char path32[256];
 			char dllpath[256];
-			char *syspath = getenv("SystemRoot");
-			if(!syspath) {
-				syspath = getenv("WinDir");
+			
+			// Try to load d3d8_original.dll from local directory first
+			filu = fopen("d3d8_original.dll", "r");
+			if(filu) {
+				fclose(filu);
+				strcpy(dllpath, "d3d8_original.dll");
+				DebugMessage("Found local d3d8_original.dll, loading...");
+				hLib = LoadLibrary(dllpath);
+			}
+
+			if (hLib == NULL) {
+				char *syspath = getenv("SystemRoot");
 				if(!syspath) {
-					ShowMessage("'SystemRoot' or 'WinDir' environment variable not set!");
+					syspath = getenv("WinDir");
+					if(!syspath) {
+						ShowMessage("'SystemRoot' or 'WinDir' environment variable not set!");
+						exit(0);
+					}
+				}
+
+				strcpy(path, syspath);
+				strcpy(path32, syspath);
+				strcat(path, "\\system\\d3d8.dll");
+				strcat(path32, "\\system32\\d3d8.dll");
+
+				filu = fopen(path32, "r");
+				if(!filu) {
+					filu = fopen(path, "r");
+					strcpy(dllpath, path);
+				} else
+					strcpy(dllpath, path32);
+
+				if(!filu) {
+					ShowMessage("d3d8.dll not found!\n\n%s\n%s", path, path32);
 					exit(0);
+				} else {
+					DebugMessage("Load DLL %s", dllpath);
+					fclose(filu);
+					hLib=LoadLibrary(dllpath);
 				}
 			}
 
-			strcpy(path, syspath);
-			strcpy(path32, syspath);
-			strcat(path, "\\system\\d3d8.dll");
-			strcat(path32, "\\system32\\d3d8.dll");
-
-			filu = fopen(path32, "r");
-			if(!filu) {
-				filu = fopen(path, "r");
-				strcpy(dllpath, path);
-			} else
-				strcpy(dllpath, path32);
-
-			if(!filu) {
-				ShowMessage("d3d8.dll not found!\n\n%s\n%s", path, path32);
-				exit(0);
-			} else {
-				DebugMessage("Load DLL %s", dllpath);
-				fclose(filu);
-				hLib=LoadLibrary(dllpath);
+			if (hLib) {
 				ODirect3DCreate8 = (D3DCREATETYPE) GetProcAddress((HMODULE)hLib, "Direct3DCreate8");
+			} else {
+				ShowMessage("Failed to load d3d8 dll!");
+				exit(0);
 			}
 
 			// Set keyboard hook
@@ -2128,6 +2146,10 @@ HRESULT WINAPI NewCreateDevice(LPDIRECT3D8 fu, UINT Adapter,D3DDEVTYPE DeviceTyp
 	}
 
 	pPresentationParameters->AutoDepthStencilFormat = (D3DFORMAT)71;
+
+	// Force Lockable Backbuffer to ensure screenshots work
+	pPresentationParameters->Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+	DebugMessage("CreateDevice: Forced D3DPRESENTFLAG_LOCKABLE_BACKBUFFER");
 
 	DebugMessage("CreateDevice: EnableAutoDepthStencil = %i", 
 		pPresentationParameters->EnableAutoDepthStencil);
