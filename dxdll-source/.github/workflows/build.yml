@@ -1,0 +1,24 @@
+name: Build DXDLL
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Build Solution
+      run: |
+        msbuild DX8Hook.sln /p:Configuration=Release /p:Platform=x86 /t:Rebuild
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: dxdll-compiled
+        path: Release/d3d8.dll

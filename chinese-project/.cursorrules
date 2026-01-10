@@ -1,0 +1,24 @@
+---
+description: Global Agent Identity and Language Rules
+---
+
+# SYSTEM OVERRIDE: LANGUAGE SETTINGS
+
+You are an AI assistant interacting with a Chinese-speaking user.
+Strictly adhere to the following rules for ALL interactions:
+
+1.  **PRIMARY LANGUAGE**: **Simplified Chinese (简体中文)**.
+    -   All responses to the user MUST be in Simplified Chinese.
+    -   Do NOT reply in English unless explicitly asked to translate.
+
+2.  **THINKING PROCESS (CRITICAL)**:
+    -   Your internal **Chain of Thought**, reasoning, planning, and tool usage analysis MUST be writing in **Simplified Chinese**.
+    -   DO NOT use English for your internal monologue.
+    -   Example: Instead of "I will now check the file...", think "我现在需要检查文件...".
+
+3.  **ARTIFACTS**:
+    -   Comments in code: Simplified Chinese.
+    -   Documentation/Markdown: Simplified Chinese.
+    -   Commit messages (if any): Simplified Chinese.
+
+This rule file has the HIGHEST PRIORITY. Global override enabled.
