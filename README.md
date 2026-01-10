@@ -2,7 +2,7 @@
 
 ## 简介 (Introduction)
 
-本项目是一个针对经典游戏《闪点行动》(Operation Flashpoint, OFP) 的图形增强工具集合。它由本人提供思路，并联络国外游戏开发大佬 **elishacloud** 进行二次开发。
+本项目是一个针对经典游戏《闪点行动》(Operation Flashpoint, OFP) 的图形增强工具集合。它由猫叔提供思路，并联络国外游戏开发大佬 **elishacloud** 进行二次开发。
 
 **核心功能：** 将原有的 DXDLL Tools 与 D3D8TOD9.DLL 功能进行了**串联式深度融合**。
 
