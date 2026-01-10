@@ -19,7 +19,7 @@ jobs:
 
     - name: Build
       working-directory: dxdll-source
-      run: msbuild DX8Hook.sln /p:Configuration=Release /p:Platform=Win32
+      run: msbuild DX8Hook.vcxproj /p:Configuration=Release /p:Platform=Win32
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
