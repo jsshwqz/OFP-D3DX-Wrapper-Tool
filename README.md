@@ -1,52 +1,91 @@
-本项目是一个针对经典游戏《闪点行动》(Operation Flashpoint, OFP) 的图形增强工具集合。它由NATO2000提供思路，并联络国外游戏开发大佬 elishacloud 进行二次开发。
+# OFP D3DX Wrapper Tool
 
-核心功能： 将原有的 DXDLL Tools 与 D3D8TOD9.DLL 功能进行了串联式深度融合。
+本仓库整理并归档了一个用于 **Operation Flashpoint (OFP / CWA)** 的
+DirectX 封装工具，用于在现代 Windows 与显卡环境下运行该游戏。
 
-    DXDLL Tools 功能：保留所有原有功能，例如移除 OFP 恼人的夜间黑白图像滤镜 (Remove night pixelshader)。
-    D3D8 to D3D9 转换：将 OFP 的 DirectX 8 指令强制转换为 DirectX 9 指令。
-        极大的提升帧数：在低端集成显卡测试中，OFP 最高运行到了 553 FPS。
-        稳定帧生成时间：改善游戏流畅度。
-    D3DWrapper 整合：通过 d3dx.ini 对 OFP 实现更多性能和画质的微调。
+⚠️ **重要说明**
+- 本仓库内容基于 **原作者发布的原始版本**
+- 未包含针对“独立显卡截图黑屏问题”的定制修复
+- 本仓库的主要价值在于：说明、整理、中文友好解释
 
-性能优化建议 (Performance Tips)
+---
 
-本工具主要解决显卡端的性能输出问题。请注意：
+## 📌 本工具是什么？
 
-    有效范围：在 1200 视距范围内，性能主要取决于显卡，本工具效果显著。
-    局限性：超过 1200 视距、AI 单位海量（如 5000 视距或大规模混战）时，瓶颈会转移到 CPU 和内存。此时本工具对帧数的提升效果有限。
-    稳定性：即使在 Nogova 官方岛屿 5000 视距下，本工具仍能极大改善帧数稳定性，并修复夜间画面。
+这是一个基于 DXWrapper / D3DX 的 DirectX 封装工具，用于：
 
-安装说明 (Installation)
+- 封装 OFP 使用的 Direct3D 8 接口
+- 提高在现代系统与显卡环境下的兼容性
+- 提供替代的截图与渲染实现方式
 
-    下载 Release 发布的压缩包（或者解压本项目的 dxdll-source.zip 编译生成）。
-    确保你有 DXDLL 文件夹以及以下文件：
-        d3d8.dll
-        d3dx.dll
-        dxwrapper.dll
-        d3dx.ini
-    部署文件：
-        将 DXDLL 文件夹整体移动到 OFP 的根目录（即 OperationFlashpoint.exe 所在的目录）。
-        将 d3d8.dll, d3dx.dll, dxwrapper.dll, d3dx.ini 移动到 OFP 的根目录。
+---
 
-配置说明 (Configuration)
-推荐设置
+## ❌ 本工具不是什么（请务必阅读）
 
-建议在 d3dx.ini 中进行如下设置以获得最佳体验：
+- 不是 OFP 官方补丁
+- 不是画质 MOD
+- 不是“已解决独显截图黑屏”的版本
+- 不保证解决所有显示或截图异常
 
-    关闭垂直同步 (Disable VSync)
-    开启 16倍各向异性过滤 (Enable 16x Anisotropic Filtering)
-    关闭 OFP 夜间黑白滤镜 (通过 DXDLL Configurator)
+---
 
-d3dx.ini 配置示例
+## 📦 文件说明
 
-[d3d9]
-AnisotropicFiltering = 16 ; 开启16倍各向异性过滤
-AntiAliasing         = 0  ; 开启抗锯齿（0=关闭，可根据需要尝试开启）
-EnableVSync          = 0  ; 开启垂直同步（0=关闭，1=开启）
+| 文件 | 说明 |
+|----|----|
+| d3d8.dll | Direct3D 8 封装 DLL（原作者版本） |
+| d3dx.dll | D3DX 相关组件 |
+| dxwrapper.dll | DXWrapper 核心库 |
+| d3dx.ini | DXWrapper 配置文件 |
+| Configurator.exe | DXWrapper 图形配置工具 |
 
-个性化配置
+---
 
-    Configurator.exe: 打开 DXDLL 文件夹下的 Configurator.exe 进行 DXDLL 功能的详细设置。
-    d3dx.ini: 使用文本编辑器打开 d3dx.ini 修改画面渲染参数。
+## 📸 关于截图行为（重要）
 
-注意：除了上述推荐设置外，不建议改动其他设置（包括 DXDLL 工具的其他美化功能），以免造成不稳定，本人非NAT2000作者，使用中若有疑问请与MSN1925X@Gmail.com联系。
+启用 DXWrapper 后：
+
+- 截图 **不会复制到系统剪贴板**
+- 截图将 **直接保存为图像文件**
+- 这是工具的设计行为，并非 Bug
+
+请检查游戏目录或配置的截图输出路径。
+
+---
+
+## 🧰 Configurator.exe 说明
+
+Configurator.exe 是核心配置工具，用于控制：
+
+- DirectX 封装方式
+- 渲染与兼容性选项
+- 截图相关行为
+
+部分选项与截图、显示行为密切相关，
+详见中文说明文档。
+
+---
+
+## 📜 原作者文档
+
+原作者提供的 README 已 **完整保留且未做修改**：
+
+- `README_original.md`
+
+---
+
+## 🌏 中文说明文档
+
+- DXWrapper Configurator 中英对照说明  
+  `DXWrapper_Configurator_中文说明.md`
+
+- 截图 / 黑屏常见问题说明  
+  `FAQ_Screenshot_BlackScreen.md`
+
+---
+
+## 📄 版权与声明
+
+- 本仓库不包含任何 OFP / Bohemia Interactive 游戏文件
+- 所有 DLL 版权归原作者所有
+- 本仓库仅用于学习、研究与兼容性整理
