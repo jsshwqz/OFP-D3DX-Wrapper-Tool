@@ -17,9 +17,28 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
 
+    - name: Download Dependencies (d3d8.lib, d3dx8.lib)
+      shell: powershell
+      run: |
+        $libs = @("d3d8.lib", "d3dx8.lib")
+        $baseUrl = "https://github.com/apitrace/dxsdk/raw/master/Lib/x86/"
+        
+        Write-Host "Downloading dependencies to dxdll-source..."
+        foreach ($lib in $libs) {
+            $outFile = Join-Path "dxdll-source" $lib
+            Write-Host "Downloading $lib to $outFile..."
+            Invoke-WebRequest -Uri "$baseUrl$lib" -OutFile $outFile
+        }
+        
     - name: Build
       working-directory: dxdll-source
-      run: msbuild DX8Hook.vcxproj /p:Configuration=Release /p:Platform=Win32
+      # Add current directory to LibraryPath so linker finds the downloaded .lib files
+      shell: cmd
+      run: msbuild DX8Hook.vcxproj /p:Configuration=Release /p:Platform=Win32 /p:LibraryPath=".;$(LibraryPath)" -verbosity:normal
+
+    - name: List Release Directory
+      if: always()
+      run: dir dxdll-source\Release
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
