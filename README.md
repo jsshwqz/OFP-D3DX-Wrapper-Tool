@@ -49,4 +49,4 @@ EnableVSync          = 0  ; 开启垂直同步（0=关闭，1=开启）
     Configurator.exe: 打开 DXDLL 文件夹下的 Configurator.exe 进行 DXDLL 功能的详细设置。
     d3dx.ini: 使用文本编辑器打开 d3dx.ini 修改画面渲染参数。
 
-注意：除了上述推荐设置外，不建议改动其他设置（包括 DXDLL 工具的其他美化功能），以免造成不稳定，使用中若有疑问请与MSN1925X@Gmail.com联系。
+注意：除了上述推荐设置外，不建议改动其他设置（包括 DXDLL 工具的其他美化功能），以免造成不稳定，本人非NAT2000作者，使用中若有疑问请与MSN1925X@Gmail.com联系。
